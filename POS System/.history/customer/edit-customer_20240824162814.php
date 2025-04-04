@@ -1,0 +1,88 @@
+<?php 
+
+include('../header.php');
+include('function.php');
+include('header1.php');
+include('navbar.php');
+
+
+?>
+
+<div style="margin-top: 10px; text-decoration: none; margin-left: 1%;" >
+    <button type="button" class="btn btn-secondary" >
+        <a href="customers.php" style="text-decoration: none; color:antiquewhite; ">Go Back</a>
+    </button>
+</div>
+
+<div class="container-fluid px-4" style="margin-top: -60px; width: 90%; margin-left: 10%;">
+    <div class="card mt-4 shadow">
+        <div class="card-header">
+            <small class="mb-o">Update Customer Details</small>
+        </div>
+        <div class="card-body">
+            <?php alertMessage(); ?>
+
+            <form action="code.php" method="POST">
+                <?php
+                    $paramValue = checkParamId('id');
+                    if(!is_numeric($paramValue)) 
+                    {
+                        echo'<h5>'.$paramValue.'</h5>';
+                        return false;
+                    }
+
+                    $customer = getById('customers',$paramValue);
+                    if($customer['status'] == 200)
+                    {
+                        ?>
+
+                        <input type="hidden" name="customerId" value="<?=$customer['data']['id'];?>" >
+                            <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="">Customer Name</label>
+                        <input type="text" name="name" value="<?=$customer['data']['name'];?>" required class="form-control" />
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="">Email</label>
+                        <input type="email" name="description" class="form-control" rows="3"></input>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="">Phone Number</label>
+                        <input type="number" name="phone" value="<?=$customer['data']['phone'];?>" class="form-control" rows="3"></input>
+                    </div>
+                    <!-- <div class="col-md-4 mb-3">
+                        <label for="">Image</label>
+                        <input type="file" name="image" class="form-control"></input>
+                    </div> -->
+                    
+
+
+                    <div class="col-md-6">
+                        <label for="">Status (unChecked=Visible, Checked=Hidden)</label>
+                        <br>
+                        <input type="checkbox" name="status" <?=$customer ['data']['status'] == true ? 'checked':'' ;?> style="width: 30px; height: 30px;" />
+                    </div>
+                    <div class="col-md-6 mb-3 text-between"  >
+                        <br>
+                        <button type="submit" name="updateCustomer" class="btn btn-success" style="margin-right: 20px;" >Update</button>
+                        <a href="customers.php" class="btn btn-secondary ">Cancel</a>
+                    </div>
+                </div>
+                        <?php
+                    }
+                    else
+                    {
+                        echo '<h5>'.$customer['message'].'</h5>';
+                        return false;
+                    }
+                ?>
+
+                
+            </form>
+        </div>
+    </div>
+
+
+
+    </div>
+        </div>
